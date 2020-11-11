@@ -1,11 +1,9 @@
 package sample;
 
 public class Balloom extends Enities {
-    protected boolean isLife;
     protected double speed;
     public Balloom(double x, double y) {
         super(x, y);
-        this.isLife = true;
         this.image = LoadImages.img_balloomleft;
         this.speed = 0.5;
     }
