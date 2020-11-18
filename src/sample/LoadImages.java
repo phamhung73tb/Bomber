@@ -28,6 +28,7 @@ public class LoadImages {
         LoadImages.img_playerleft = new Image(new FileInputStream(Resources.player_left));
         LoadImages.img_playerright = new Image(new FileInputStream(Resources.player_right));
         LoadImages.img_bomb = new Image(new FileInputStream(Resources.bomb));
+        LoadImages.img_bombexploded = new Image(new FileInputStream(Resources.bomb_exploded));
     }
 
     public static void loadImageGraphics() throws FileNotFoundException {

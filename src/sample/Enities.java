@@ -7,6 +7,7 @@ public class Enities {
     protected double realX;
     protected double realY;
     protected Image image;
+    protected int index;
 
     public Enities(double x, double y) {
         this.realY = y;

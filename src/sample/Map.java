@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.image.ImageView;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ public class Map {
     public static List<Brick> listbirck = new ArrayList<>();
     public static List<Grass> listgrass = new ArrayList<>();
     public static List<Balloom> listballoom = new ArrayList<>();
+
 
     public static Bomber bomber;
 
@@ -44,7 +47,7 @@ public class Map {
                     isFilled[i][currow] = true;
                 }
                 if (kitu == 'p') {
-                    bomber = new Bomber(i, currow, 0.5);
+                    bomber = new Bomber(i, currow, 0.25);
                 }
                 if (kitu == '1') {
                     Balloom balloom = new Balloom(i, currow);

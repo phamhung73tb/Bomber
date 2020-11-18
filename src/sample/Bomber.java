@@ -19,7 +19,7 @@ public class Bomber extends Enities {
 
     public void goUp() {
         int nextX = (int) realX;
-        int nextY = (int) (realY + 0.5);
+        int nextY = (int) (realY + 1 - speed);
         image = LoadImages.img_playerup;
         if (realX - nextX == 0) {
             if (!Map.isFilled[nextX][nextY -1]) {
@@ -50,7 +50,7 @@ public class Bomber extends Enities {
     }
 
     public void turnLeft() {
-        int nextX = (int) (realX + 0.5);
+        int nextX = (int) (realX + 1 - speed);
         int nextY = (int) realY;
         image = LoadImages.img_playerleft;
         if (realY - nextY == 0) {
