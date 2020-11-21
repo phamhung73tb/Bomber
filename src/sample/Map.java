@@ -20,6 +20,7 @@ public class Map {
     public static Bomber bomber;
 
     public static boolean[][] isFilled = new boolean[100][100];
+    public static boolean[][] isBrick = new boolean[100][100];
 
     public static void renderMap() throws FileNotFoundException {
         LoadImages.loadImageGraphics();
@@ -45,6 +46,7 @@ public class Map {
                     Brick brick = new Brick(i, currow);
                     listbirck.add(brick);
                     isFilled[i][currow] = true;
+                    isBrick[i][currow] = true;
                 }
                 if (kitu == 'p') {
                     bomber = new Bomber(i, currow, 0.25);

@@ -8,9 +8,17 @@ import java.io.FileNotFoundException;
 
 public class LoadImages {
     public static Image img_playerup;
+    public static Image img_playerup1;
+    public static Image img_playerup2;
     public static Image img_playerdown;
+    public static Image img_playerdown1;
+    public static Image img_playerdown2;
     public static Image img_playerleft;
+    public static Image img_playerleft1;
+    public static Image img_playerleft2;
     public static Image img_playerright;
+    public static Image img_playerright1;
+    public static Image img_playerright2;
     public static Image img_bomb;
     public static Image wall;
     public static Image brick;
@@ -24,11 +32,27 @@ public class LoadImages {
 
     public static void loadImageBomber() throws FileNotFoundException {
         LoadImages.img_playerup = new Image(new FileInputStream(Resources.player_up));
+        LoadImages.img_playerup1 = new Image(new FileInputStream(Resources.player_up1));
+        LoadImages.img_playerup2 = new Image(new FileInputStream(Resources.player_up2));
         LoadImages.img_playerdown = new Image(new FileInputStream(Resources.player_down));
+        LoadImages.img_playerdown1 = new Image(new FileInputStream(Resources.player_down1));
+        LoadImages.img_playerdown2 = new Image(new FileInputStream(Resources.player_down2));
         LoadImages.img_playerleft = new Image(new FileInputStream(Resources.player_left));
+        LoadImages.img_playerleft1 = new Image(new FileInputStream(Resources.player_left1));
+        LoadImages.img_playerleft2 = new Image(new FileInputStream(Resources.player_left2));
         LoadImages.img_playerright = new Image(new FileInputStream(Resources.player_right));
+        LoadImages.img_playerright1 = new Image(new FileInputStream(Resources.player_right1));
+        LoadImages.img_playerright2 = new Image(new FileInputStream(Resources.player_right2));
+
+    }
+
+    public static void loadImageBomb() throws FileNotFoundException {
         LoadImages.img_bomb = new Image(new FileInputStream(Resources.bomb));
         LoadImages.img_bombexploded = new Image(new FileInputStream(Resources.bomb_exploded));
+        LoadImages.img_explosionhorizontal =
+                new Image(new FileInputStream(Resources.explosion_horizontal));
+        LoadImages.img_explosionvertical =
+                new Image(new FileInputStream(Resources.explosion_vertical));
     }
 
     public static void loadImageGraphics() throws FileNotFoundException {
