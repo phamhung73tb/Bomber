@@ -2,13 +2,7 @@ package sample;
 
 import javafx.scene.image.ImageView;
 
-public class Bomber extends Enities {
-
-    protected double speed;
-    protected int typeUp;
-    protected int typeDown;
-    protected int typeLeft;
-    protected int typeRight;
+public class Bomber extends Animations {
 
     public Bomber(double x, double y) {
         super(x, y);
@@ -16,13 +10,8 @@ public class Bomber extends Enities {
     }
 
     public Bomber(double x, double y, double speed) {
-        super(x, y);
+        super(x, y, speed);
         this.image = LoadImages.img_playerdown;
-        this.speed = speed;
-        this.typeDown = 0;
-        this.typeLeft = 0;
-        this.typeRight = 0;
-        this.typeUp = 0;
     }
 
     public void goUp() {
@@ -106,6 +95,21 @@ public class Bomber extends Enities {
             }
         }
     }
+
+    @Override
+    public void place(int x, int y) {
+        super.place(x, y);
+    }
+
+    public void placeBomb() {
+        this.placeX = (int) realX;
+        this.placeY = (int) realY;
+        if (typeLeft > 0 && placeX != realX)
+            placeX ++;
+        if (typeUp > 0 && realY != placeY)
+            placeY ++;
+    }
+
 
     @Override
     public ImageView imageView() {

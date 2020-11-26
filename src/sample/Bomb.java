@@ -13,4 +13,5 @@ public class Bomb extends Enities {
     public ImageView imageView() {
         return super.imageView();
     }
+
 }

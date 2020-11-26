@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -25,6 +24,11 @@ public class Controller extends Application {
     int indexoflistImage = 0;
     boolean[][] hasFire = new boolean[100][100];
     int sizeOfFire = 1;
+    boolean checkGameOver = false;
+    int hasBomb = 0;
+    int limitBomb = 1;
+
+
 
     public static void main(String[] args) {
         launch(args);
@@ -58,6 +62,12 @@ public class Controller extends Application {
         }
     }
 
+    public void changImageView(ImageView imageView, double x, double y, Image image) {
+        imageView.setImage(image);
+        imageView.setX(x * 30);
+        imageView.setY(y * 30);
+    }
+
     public int showIndex(int x, int y) {
         for (int i = 0; i < Map.listbirck.size(); i ++) {
             Brick brick = Map.listbirck.get(i);
@@ -71,54 +81,89 @@ public class Controller extends Application {
         }
         return 0;
     }
-    public void showFire(int x, int y) {
+    public void showFire(int x, int y, Bomber bomber) {
         for (int i = 1; i <= sizeOfFire; i++) {
             if (!Map.isFilled[x +i][y]) {
                 int index = showIndex(x + i, y);
                 imageViews[index].setImage(LoadImages.img_explosionhorizontal);
                 hasFire[x + i][y] = true;
             } else {
-                if (Map.isBrick[x + i][y])
+                if (Map.isBrick[x + i][y]) {
+                    int index = showIndex(x + i, y);
                     hasFire[x + i][y] = true;
+                    imageViews[index].setImage(LoadImages.brick_ex);
+                    Map.isBrick[x + i][y] = false;
+                    Map.isFilled[x +i][y] = false;
+                }
             }
+
             if (!Map.isFilled[x - i][y]) {
                 int index = showIndex(x - i, y);
                 imageViews[index].setImage(LoadImages.img_explosionhorizontal);
                 hasFire[x - i][y] = true;
             } else {
-                if (Map.isBrick[x - i][y])
+                if (Map.isBrick[x - i][y]) {
+                    int index = showIndex(x - i, y);
                     hasFire[x - i][y] = true;
+                    imageViews[index].setImage(LoadImages.brick_ex);
+                    Map.isBrick[x - i][y] = false;
+                    Map.isFilled[x - i][y] = false;
+                }
             }
             if (!Map.isFilled[x][y - i]) {
                 int index = showIndex(x, y - i);
                 imageViews[index].setImage(LoadImages.img_explosionvertical);
                 hasFire[x][y - i] = true;
             } else {
-                if (Map.isBrick[x][y - i])
+                if (Map.isBrick[x][y - i]) {
+                    int index = showIndex(x, y - i);
                     hasFire[x][y - i] = true;
+                    imageViews[index].setImage(LoadImages.brick_ex);
+                    Map.isBrick[x][y - i] = false;
+                    Map.isFilled[x][y - i] = false;
+                }
             }
             if (!Map.isFilled[x][y + i]) {
                 int index = showIndex(x, y + i);
                 imageViews[index].setImage(LoadImages.img_explosionvertical);
                 hasFire[x][y + i] = true;
             } else {
-                if (Map.isBrick[x][y + i])
+                if (Map.isBrick[x][y + i]) {
+                    int index = showIndex(x, y + i);
                     hasFire[x][y + i] = true;
+                    imageViews[index].setImage(LoadImages.brick_ex);
+                    Map.isBrick[x][y + i] = false;
+                    Map.isFilled[x][y + i] = false;
+                }
             }
         }
+        for (int i = 0; i < Map.listballoom.size(); i ++) {
+            Balloom balloom = Map.listballoom.get(i);
+            balloom.place(x, y);
+            if (hasFire[balloom.placeX][balloom.placeY]) {
+                imageViews[balloom.index].setImage(LoadImages.img_balloomddead);
+                Map.listballoom.get(i).isLife = false;
+            }
+        }
+        bomber.place(x, y);
+        if (hasFire[bomber.placeX][bomber.placeY])
+            bomber.isLife = false;
     }
 
-    public void boom() {
+    public void offFire() {
         for (int i = 0; i < 50; i ++)
             for (int j = 0; j < 30; j++) {
                 if (hasFire[i][j]) {
-                    if (Map.isBrick[i][j])
+                    if (Map.isBrick[i][j]) {
                         Map.isFilled[i][j] = false;
+                        Map.isBrick[i][j] = false;
+                    }
                     imageViews[showIndex(i, j)].setImage(LoadImages.grass);
                     hasFire[i][j] = false;
                 }
             }
     }
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -130,102 +175,89 @@ public class Controller extends Application {
         LoadImages.loadImageBomb();
         addImage();
         Bomber bomber = new Bomber(Map.bomber.realX, Map.bomber.realY, Map.bomber.speed);
-        ImageView[] img_bomber = new ImageView[2];
-        img_bomber[0] = bomber.imageView();
-        int limitBomb = 1;
-        final int[] hasBomb = {0};
+        ImageView imageViewBomber = bomber.imageView();
+
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-            final int[] type = new int[10];
             @Override
             public void run() {
                 for (int i = 0; i < Map.listballoom.size(); i ++) {
                     Balloom balloom = Map.listballoom.get(i);
+                    if (!balloom.isLife) {
+                        changImageView(imageViews[Map.listballoom.get(i).index], 0, 1,
+                                LoadImages.grass);
+                        Map.listballoom.remove(i);
 
-                    if (type[i] == 0) {
-                        int nextX = (int) (balloom.realX + 0.5) - 1;
-                        if (!Map.isFilled[nextX][(int) balloom.realY]) {
-                            type[i] = 0;
-                            balloom.realX = balloom.realX - balloom.speed;
-                            balloom.image = LoadImages.img_balloomleft;
-                        } else {
-                            type[i] = 1;
-                        }
-                    } else {
-                        if (!Map.isFilled[(int) balloom.realX + 1][(int) balloom.realY]) {
-                            balloom.realX = balloom.realX + balloom.speed;
-                            balloom.image = LoadImages.img_balloomright;
-                        } else type[i] = 0;
                     }
-                    imageViews[Map.listballoom.get(i).index].setImage(balloom.image);
-                    imageViews[Map.listballoom.get(i).index].setX(balloom.realX * 30);
-                    imageViews[Map.listballoom.get(i).index].setY(balloom.realY * 30);
+                    else {
+                        balloom.move();
+                        changImageView(imageViews[Map.listballoom.get(i).index],
+                                balloom.realX, balloom.realY, balloom.image);
+                    }
+
                 }
             }
-        },0, 600);
+        },0, 700);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+
                 if (event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.A) {
-                    root.getChildren().remove(img_bomber[0]);
                     bomber.turnLeft();
-                    img_bomber[0] = bomber.imageView();
-                    root.getChildren().add(img_bomber[0]);
+                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
+
                 }
                 if (event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.D) {
-                    root.getChildren().remove(img_bomber[0]);
                     bomber.turnRight();
-                    img_bomber[0] = bomber.imageView();
-                    root.getChildren().add(img_bomber[0]);
+                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
                 }
                 if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.W) {
-                    root.getChildren().remove(img_bomber[0]);
                     bomber.goUp();
-                    img_bomber[0] = bomber.imageView();
-                    root.getChildren().add(img_bomber[0]);
+                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
                 }
                 if (event.getCode() == KeyCode.DOWN || event.getCode() == KeyCode.S) {
-                    root.getChildren().remove(img_bomber[0]);
+                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
                     bomber.downWard();
-                    img_bomber[0] = bomber.imageView();
-                    root.getChildren().add(img_bomber[0]);
+                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
                 }
                 if (event.getCode() == KeyCode.SPACE) {
-                    if (hasBomb[0] < limitBomb) {
-                        root.getChildren().remove(img_bomber[0]);
-                        int placeX = (int) bomber.realX;
-                        int placeY = (int)bomber.realY;
-                        Map.isFilled[placeX][placeY] = true;
+                    if (hasBomb < limitBomb) {
+                        bomber.placeBomb();
+                        int placeX = bomber.placeX;
+                        int placeY = bomber.placeY;
                         Bomb bomb = new Bomb(placeX, placeY);
                         ImageView imageViewBomb = bomb.imageView();
                         root.getChildren().add(imageViewBomb);
-                        root.getChildren().add(img_bomber[0]);
-                        hasBomb[0]++;
+                        hasBomb++;
                         Timer timer1 = new Timer();
                         timer1.schedule(new TimerTask() {
                             @Override
                             public void run() {
                                 imageViewBomb.setImage(LoadImages.img_bombexploded);
-                                showFire(placeX, placeY);
+                                showFire(placeX, placeY, bomber);
+                                if (!bomber.isLife) {
+                                    imageViewBomber.setImage(LoadImages.img_playerdead);
+                                    checkGameOver = true;
+                                }
+                                Map.isFilled[placeX][placeY]  = false;
+                                hasFire[placeX][placeY] = true;
                                 Timer timer2 = new Timer();
                                 timer2.schedule(new TimerTask() {
                                     @Override
                                     public void run() {
-                                        imageViewBomb.setImage(LoadImages.grass);
-                                        hasBomb[0] --;
-                                        Map.isFilled[placeX][placeY]  = false;
-                                        boom();
+                                        offFire();
+                                        changImageView(imageViewBomb, 0, 1, LoadImages.wall);
+                                        hasBomb --;
                                     }
-                                }, 500);
+                                }, 700);
                             }
                         }, 2000);
                     }
                 }
             }
         });
-
-        root.getChildren().add(img_bomber[0]);
+        root.getChildren().add(imageViewBomber);
         stage.setScene(scene);
         stage.show();
     }

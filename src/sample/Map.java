@@ -52,7 +52,7 @@ public class Map {
                     bomber = new Bomber(i, currow, 0.25);
                 }
                 if (kitu == '1') {
-                    Balloom balloom = new Balloom(i, currow);
+                    Balloom balloom = new Balloom(i, currow, 0.25);
                     listballoom.add(balloom);
                 }
             }

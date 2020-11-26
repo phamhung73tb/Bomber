@@ -20,17 +20,24 @@ public class Resources {
     public static String player_left1 = "res/player_left1.png";
     public static String player_left2 = "res/player_left2.png";
 
-    public static String bomb = "res/bomb.jpg";
+    public static String player_dead = "res/player_dead1.png";
+
+    public static String bomb = "res/bomb.png";
 
     public static String wall = "res/wall.png";
 
     public static String brick = "res/brick.png";
+    public static String brick_ex = "res/brick_exploded1.png";
 
     public static String grass = "res/grass.png";
 
     public static String balloom_left = "res/balloom_left1.png";
-
     public static String balloom_right = "res/balloom_right1.png";
+    public static String balloom_left1 = "res/balloom_left2.png";
+    public static String balloom_right1 = "res/balloom_right2.png";
+    public static String balloom_left2 = "res/balloom_left3.png";
+    public static String balloom_right2 = "res/balloom_right3.png";
+    public static String balloom_dead = "res/balloom_dead.png";
 
     public static String bomb_exploded = "res/bomb_exploded.png";
 

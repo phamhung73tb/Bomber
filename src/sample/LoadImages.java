@@ -1,10 +1,13 @@
 package sample;
 
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.List;
 
 public class LoadImages {
     public static Image img_playerup;
@@ -19,12 +22,23 @@ public class LoadImages {
     public static Image img_playerright;
     public static Image img_playerright1;
     public static Image img_playerright2;
-    public static Image img_bomb;
+    public static Image img_playerdead;
+
+
     public static Image wall;
     public static Image brick;
+    public static Image brick_ex;
     public static Image grass;
+
     public static Image img_balloomleft;
     public static Image img_balloomright;
+    public static Image img_balloomleft1;
+    public static Image img_balloomright1;
+    public static Image img_balloomleft2;
+    public static Image img_balloomright2;
+    public static Image img_balloomddead;
+
+    public static Image img_bomb;
     public static Image img_bombexploded;
     public static Image img_explosionhorizontal;
     public static Image img_explosionvertical;
@@ -43,6 +57,7 @@ public class LoadImages {
         LoadImages.img_playerright = new Image(new FileInputStream(Resources.player_right));
         LoadImages.img_playerright1 = new Image(new FileInputStream(Resources.player_right1));
         LoadImages.img_playerright2 = new Image(new FileInputStream(Resources.player_right2));
+        LoadImages.img_playerdead = new Image(new FileInputStream(Resources.player_dead));
 
     }
 
@@ -58,12 +73,18 @@ public class LoadImages {
     public static void loadImageGraphics() throws FileNotFoundException {
         LoadImages.wall = new Image(new FileInputStream(Resources.wall));
         LoadImages.brick = new Image(new FileInputStream(Resources.brick));
+        LoadImages.brick_ex = new Image(new FileInputStream(Resources.brick_ex));
         LoadImages.grass = new Image(new FileInputStream(Resources.grass));
     }
 
     public static void loadBalloom() throws FileNotFoundException {
         LoadImages.img_balloomleft = new Image(new FileInputStream(Resources.balloom_left));
         LoadImages.img_balloomright = new Image(new FileInputStream(Resources.balloom_right));
+        LoadImages.img_balloomleft1 = new Image(new FileInputStream(Resources.balloom_left1));
+        LoadImages.img_balloomright1 = new Image(new FileInputStream(Resources.balloom_right1));
+        LoadImages.img_balloomleft2 = new Image(new FileInputStream(Resources.balloom_left2));
+        LoadImages.img_balloomright2 = new Image(new FileInputStream(Resources.balloom_right2));
+        LoadImages.img_balloomddead = new Image(new FileInputStream(Resources.balloom_dead));
     }
 
     public static ImageView showImage(double x, double y,Image image) {
