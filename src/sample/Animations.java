@@ -28,9 +28,9 @@ public class Animations extends Enities{
     public void place(int x, int y) {
         placeX = (int) realX;
         placeY = (int) realY;
-        if (placeX < x && realX > placeX)
+        if (placeX < x && realX > placeX + 0.25)
             placeX ++;
-        if (placeY < y && realY > placeY)
+        if (placeY < y && realY > placeY + 0.25)
             placeY ++;
     }
 

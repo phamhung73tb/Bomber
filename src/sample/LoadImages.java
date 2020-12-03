@@ -43,6 +43,11 @@ public class LoadImages {
     public static Image img_explosionhorizontal;
     public static Image img_explosionvertical;
 
+    public static Image portal;
+    public static Image powerup_bombs;
+    public static Image powerup_flames;
+    public static Image powerup_speed;
+
 
     public static void loadImageBomber() throws FileNotFoundException {
         LoadImages.img_playerup = new Image(new FileInputStream(Resources.player_up));
@@ -85,6 +90,13 @@ public class LoadImages {
         LoadImages.img_balloomleft2 = new Image(new FileInputStream(Resources.balloom_left2));
         LoadImages.img_balloomright2 = new Image(new FileInputStream(Resources.balloom_right2));
         LoadImages.img_balloomddead = new Image(new FileInputStream(Resources.balloom_dead));
+    }
+
+    public static void loadIcons() throws FileNotFoundException {
+        LoadImages.portal = new Image(new FileInputStream(Resources.portal));
+        LoadImages.powerup_bombs = new Image(new FileInputStream(Resources.powerup_bombs));
+        LoadImages.powerup_flames = new Image(new FileInputStream(Resources.powerup_flames));
+        LoadImages.powerup_speed = new Image(new FileInputStream(Resources.powerup_speed));
     }
 
     public static ImageView showImage(double x, double y,Image image) {

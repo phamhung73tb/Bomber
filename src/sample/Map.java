@@ -1,11 +1,14 @@
 package sample;
 
-import javafx.scene.image.ImageView;
+
+import sample.Icons.Portal;
+import sample.Icons.PowerUpBombs;
+import sample.Icons.PowerUpFlames;
+import sample.Icons.PowerUpSpeed;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,6 +19,10 @@ public class Map {
     public static List<Grass> listgrass = new ArrayList<>();
     public static List<Balloom> listballoom = new ArrayList<>();
 
+    public static Portal portal;
+    public static PowerUpBombs powerUpBombs;
+    public static PowerUpFlames powerUpFlames;
+    public static PowerUpSpeed powerUpSpeed;
 
     public static Bomber bomber;
 
@@ -25,6 +32,9 @@ public class Map {
     public static void renderMap() throws FileNotFoundException {
         LoadImages.loadImageGraphics();
         LoadImages.loadBalloom();
+        LoadImages.loadImageBomber();
+        LoadImages.loadImageBomb();
+        LoadImages.loadIcons();
         File map = new File("D:\\Java\\Bomber\\src\\sample\\map.txt");
         Scanner read = new Scanner(map);
         String first = read.nextLine();
@@ -54,6 +64,34 @@ public class Map {
                 if (kitu == '1') {
                     Balloom balloom = new Balloom(i, currow, 0.25);
                     listballoom.add(balloom);
+                }
+                if (kitu == 'x') {
+                    Brick brick = new Brick(i, currow);
+                    listbirck.add(brick);
+                    portal = new Portal(i, currow);
+                    isBrick[i][currow] = true;
+                    isFilled[i][currow] = true;
+                }
+                if (kitu == 'b') {
+                    Brick brick = new Brick(i, currow);
+                    listbirck.add(brick);
+                    powerUpBombs = new PowerUpBombs(i, currow);
+                    isBrick[i][currow] = true;
+                    isFilled[i][currow] = true;
+                }
+                if (kitu == 'f') {
+                    Brick brick = new Brick(i, currow);
+                    listbirck.add(brick);
+                    powerUpFlames = new PowerUpFlames(i, currow);
+                    isBrick[i][currow] = true;
+                    isFilled[i][currow] = true;
+                }
+                if (kitu == 's') {
+                    Brick brick = new Brick(i, currow);
+                    listbirck.add(brick);
+                    powerUpSpeed = new PowerUpSpeed(i, currow);
+                    isBrick[i][currow] = true;
+                    isFilled[i][currow] = true;
                 }
             }
             currow ++;
