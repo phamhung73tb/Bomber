@@ -10,10 +10,15 @@ import javafx.scene.input.KeyCode;
 
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import sample.Animations.Bomber.Bomber;
+import sample.Animations.Enemy.Balloom;
+import sample.Animations.Enemy.Oneal;
+import sample.Bomb.Bomb;
+import sample.Graphics.Brick;
+import sample.Graphics.Grass;
 import sample.Icons.PowerUpFlames;
 import sample.Icons.PowerUpSpeed;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -63,6 +68,12 @@ public class Controller extends Application {
             imageViews[indexoflistImage] = Map.listballoom.get(i).imageView();
             root.getChildren().add(imageViews[indexoflistImage]);
             Map.listballoom.get(i).index = indexoflistImage;
+            indexoflistImage ++;
+        }
+        for (int i = 0; i < Map.listOneal.size(); i++) {
+            imageViews[indexoflistImage] = Map.listOneal.get(i).imageView();
+            root.getChildren().add(imageViews[indexoflistImage]);
+            Map.listOneal.get(i).index = indexoflistImage;
             indexoflistImage ++;
         }
     }
@@ -209,6 +220,17 @@ public class Controller extends Application {
         }
     }
 
+    public void checkWinGame(Bomber bomber) {
+        double x = bomber.realX;
+        double y =bomber.realY;
+        if (balloomList.size() == 0) {
+            if (Map.portal.realX == x && Map.portal.realY == y) {
+
+                System.out.println("Win game!");
+            }
+        }
+
+    }
 
 
     @Override
@@ -243,6 +265,23 @@ public class Controller extends Application {
             }
         },0, 700);
 
+        Timer timerOneal = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                for (int i = 0; i < Map.listOneal.size(); i ++) {
+                    Oneal oneal = Map.listOneal.get(i);
+                    if (!oneal.isLife) {
+                        changImageView(imageViews[oneal.index], 0, 1, LoadImages.grass);
+                        Map.listOneal.remove(i);
+                    }
+                    else {
+                        oneal.move();
+                        changImageView(imageViews[oneal.index], oneal.realX, oneal.realY, oneal.image);
+                    }
+                }
+            }
+        }, 0, 500);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -251,23 +290,25 @@ public class Controller extends Application {
                     bomber.turnLeft();
                     changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
                     buffIcons(bomber);
-
+                    checkWinGame(bomber);
                 }
                 if (event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.D) {
                     bomber.turnRight();
                     changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
                     buffIcons(bomber);
+                    checkWinGame(bomber);
                 }
                 if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.W) {
                     bomber.goUp();
                     changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
                     buffIcons(bomber);
+                    checkWinGame(bomber);
                 }
                 if (event.getCode() == KeyCode.DOWN || event.getCode() == KeyCode.S) {
                     changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
                     buffIcons(bomber);
+                    checkWinGame(bomber);
                     bomber.downWard();
-                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
                 }
                 if (event.getCode() == KeyCode.SPACE) {
                     if (hasBomb < limitBomb) {

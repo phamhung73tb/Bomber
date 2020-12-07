@@ -1,6 +1,12 @@
 package sample;
 
 
+import sample.Animations.Bomber.Bomber;
+import sample.Animations.Enemy.Balloom;
+import sample.Animations.Enemy.Oneal;
+import sample.Graphics.Brick;
+import sample.Graphics.Grass;
+import sample.Graphics.Wall;
 import sample.Icons.Portal;
 import sample.Icons.PowerUpBombs;
 import sample.Icons.PowerUpFlames;
@@ -18,6 +24,7 @@ public class Map {
     public static List<Brick> listbirck = new ArrayList<>();
     public static List<Grass> listgrass = new ArrayList<>();
     public static List<Balloom> listballoom = new ArrayList<>();
+    public static List<Oneal> listOneal = new ArrayList<>();
 
     public static Portal portal;
     public static PowerUpBombs powerUpBombs;
@@ -35,6 +42,7 @@ public class Map {
         LoadImages.loadImageBomber();
         LoadImages.loadImageBomb();
         LoadImages.loadIcons();
+        LoadImages.loadOneal();
         File map = new File("D:\\Java\\Bomber\\src\\sample\\map.txt");
         Scanner read = new Scanner(map);
         String first = read.nextLine();
@@ -64,6 +72,10 @@ public class Map {
                 if (kitu == '1') {
                     Balloom balloom = new Balloom(i, currow, 0.25);
                     listballoom.add(balloom);
+                }
+                if (kitu == '2') {
+                    Oneal oneal = new Oneal(i, currow, 0.25);
+                    listOneal.add(oneal);
                 }
                 if (kitu == 'x') {
                     Brick brick = new Brick(i, currow);

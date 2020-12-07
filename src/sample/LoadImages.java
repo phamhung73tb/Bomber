@@ -1,13 +1,12 @@
 package sample;
 
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import sample.Res.Resources;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
 
 public class LoadImages {
     public static Image img_playerup;
@@ -37,6 +36,14 @@ public class LoadImages {
     public static Image img_balloomleft2;
     public static Image img_balloomright2;
     public static Image img_balloomddead;
+
+    public static Image img_onealdead;
+    public static Image img_onealleft1;
+    public static Image img_onealleft2;
+    public static Image img_onealleft3;
+    public static Image img_onealright1;
+    public static Image img_onealright2;
+    public static Image img_onealright3;
 
     public static Image img_bomb;
     public static Image img_bombexploded;
@@ -90,6 +97,16 @@ public class LoadImages {
         LoadImages.img_balloomleft2 = new Image(new FileInputStream(Resources.balloom_left2));
         LoadImages.img_balloomright2 = new Image(new FileInputStream(Resources.balloom_right2));
         LoadImages.img_balloomddead = new Image(new FileInputStream(Resources.balloom_dead));
+    }
+
+    public static void loadOneal() throws FileNotFoundException {
+        LoadImages.img_onealdead = new Image(new FileInputStream(Resources.oneal_dead));
+        LoadImages.img_onealleft1 = new Image(new FileInputStream(Resources.oneal_left1));
+        LoadImages.img_onealleft2 = new Image(new FileInputStream(Resources.oneal_left2));
+        LoadImages.img_onealleft3 = new Image(new FileInputStream(Resources.oneal_left3));
+        LoadImages.img_onealright1 = new Image(new FileInputStream(Resources.oneal_right1));
+        LoadImages.img_onealright2 = new Image(new FileInputStream(Resources.oneal_right2));
+        LoadImages.img_onealright3 = new Image(new FileInputStream(Resources.oneal_right3));
     }
 
     public static void loadIcons() throws FileNotFoundException {
