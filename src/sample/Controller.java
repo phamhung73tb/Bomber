@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import sample.Animations.Bomber.Bomber;
 import sample.Animations.Enemy.Balloom;
@@ -37,6 +38,7 @@ public class Controller extends Application {
     boolean checkGameOver = false;
     int hasBomb = 0;
     int limitBomb = 1;
+    MediaPlayer sound_Background;
 
 
 
@@ -171,6 +173,14 @@ public class Controller extends Application {
                 Map.listballoom.get(i).isLife = false;
             }
         }
+        for (int i = 0; i < Map.listOneal.size(); i ++) {
+            Oneal oneal = Map.listOneal.get(i);
+            oneal.place(x, y);
+            if (hasFire[oneal.placeX][oneal.placeY]) {
+                imageViews[oneal.index].setImage(LoadImages.img_onealdead);
+                Map.listOneal.get(i).isLife = false;
+            }
+        }
         bomber.place(x, y);
         if (hasFire[bomber.placeX][bomber.placeY])
             bomber.isLife = false;
@@ -229,7 +239,6 @@ public class Controller extends Application {
                 System.out.println("Win game!");
             }
         }
-
     }
 
 
@@ -238,6 +247,7 @@ public class Controller extends Application {
         stage.setHeight(500);
         stage.setWidth(1000);
         this.stage = stage;
+        LoadImages.loadSound();
         Map.renderMap();
         addImage();
         Bomber bomber = new Bomber(Map.bomber.realX, Map.bomber.realY, Map.bomber.speed);
@@ -253,39 +263,46 @@ public class Controller extends Application {
                         changImageView(imageViews[balloomList.get(i).index], 0, 1,
                                 LoadImages.grass);
                         balloomList.remove(i);
-
                     }
                     else {
                         balloom.move();
                         changImageView(imageViews[balloomList.get(i).index],
                                 balloom.realX, balloom.realY, balloom.image);
+                        if (bomber.realX == balloom.realX && bomber.realY == balloom.realY) {
+                            bomber.isLife = false;
+                            checkGameOver = true;
+                            imageViewBomber.setImage(LoadImages.img_playerdead);
+                        }
                     }
 
                 }
-            }
-        },0, 700);
-
-        Timer timerOneal = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
                 for (int i = 0; i < Map.listOneal.size(); i ++) {
                     Oneal oneal = Map.listOneal.get(i);
                     if (!oneal.isLife) {
                         changImageView(imageViews[oneal.index], 0, 1, LoadImages.grass);
                         Map.listOneal.remove(i);
-                    }
-                    else {
-                        oneal.move();
+                    } else {
                         changImageView(imageViews[oneal.index], oneal.realX, oneal.realY, oneal.image);
+                        oneal.move();
                     }
                 }
             }
-        }, 0, 500);
+        },0, 700);
+
+        Timer timerOneal = new Timer();
+        timerOneal.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        },0, 500);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
 
+                if (checkGameOver) {
+                    imageViewBomber.setImage(LoadImages.img_playerdead);
+                }
                 if (event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.A) {
                     bomber.turnLeft();
                     changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
@@ -354,6 +371,8 @@ public class Controller extends Application {
                 }
             }
         });
+        sound_Background = new MediaPlayer(LoadImages.sound_backgound);
+        sound_Background.play();
         root.getChildren().add(imageViewBomber);
         stage.setScene(scene);
         stage.show();

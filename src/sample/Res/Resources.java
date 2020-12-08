@@ -59,5 +59,7 @@ public class Resources {
     public static String powerup_flames = "res/powerup_flames.png";
     public static String powerup_speed = "res/powerup_speed.png";
 
+    public static String sound_background = "D:\\Java\\Bomber\\res\\sound\\background.mp3";
+
 
 }

@@ -3,6 +3,7 @@ package sample.Animations;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import sample.Enities;
+import sample.Map;
 
 import java.util.Random;
 
@@ -35,6 +36,43 @@ public class Animations extends Enities {
             placeX ++;
         if (placeY < y && realY > placeY)
             placeY ++;
+    }
+    public boolean canGoUp() {
+        int nextX = (int) realX;
+        int nextY = (int) (realY + 1 - speed);
+        if (realX - nextX == 0) {
+            return !Map.isFilled[nextX][nextY - 1];
+        } else {
+            return !Map.isFilled[nextX][nextY - 1] && !Map.isFilled[nextX + 1][nextY - 1];
+        }
+    }
+
+    public boolean canDownWard() {
+        int nextX = (int) realX;
+        int nextY = (int) realY;
+        if (realX - nextX == 0) {
+            return !Map.isFilled[nextX][nextY + 1];
+        } else {
+            return !Map.isFilled[nextX][nextY + 1] && !Map.isFilled[nextX + 1][nextY + 1];
+        }
+    }
+    public boolean canTurnLeft() {
+        int nextX = (int) (realX + 1 - speed);
+        int nextY = (int) realY;
+        if (realY - nextY == 0) {
+            return !Map.isFilled[nextX - 1][nextY];
+        } else {
+            return !Map.isFilled[nextX - 1][nextY] && !Map.isFilled[nextX - 1][nextY + 1];
+        }
+    }
+    public boolean canTurnRight()     {
+        int nextX = (int) realX;
+        int nextY = (int) realY;
+        if (realY - nextY == 0) {
+            return !Map.isFilled[nextX + 1][nextY];
+        } else {
+            return !Map.isFilled[nextX + 1][nextY] && !Map.isFilled[nextX + 1][nextY + 1];
+        }
     }
 
     @Override

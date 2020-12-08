@@ -4,6 +4,8 @@ import sample.Animations.Animations;
 import sample.LoadImages;
 import sample.Map;
 
+import java.util.Random;
+
 public class Balloom extends Animations {
 
     public Balloom(double x, double y, double speed) {
@@ -17,6 +19,26 @@ public class Balloom extends Animations {
     @Override
     public void place(int x, int y) {
         super.place(x, y);
+    }
+
+    @Override
+    public boolean canGoUp() {
+        return super.canGoUp();
+    }
+
+    @Override
+    public boolean canDownWard() {
+        return super.canDownWard();
+    }
+
+    @Override
+    public boolean canTurnLeft() {
+        return super.canTurnLeft();
+    }
+
+    @Override
+    public boolean canTurnRight() {
+        return super.canTurnRight();
     }
 
     public void move() {

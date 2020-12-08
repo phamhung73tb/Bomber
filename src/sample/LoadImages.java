@@ -2,11 +2,13 @@ package sample;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
 import sample.Res.Resources;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 
 public class LoadImages {
     public static Image img_playerup;
@@ -54,6 +56,8 @@ public class LoadImages {
     public static Image powerup_bombs;
     public static Image powerup_flames;
     public static Image powerup_speed;
+
+    public static Media sound_backgound;
 
 
     public static void loadImageBomber() throws FileNotFoundException {
@@ -114,6 +118,10 @@ public class LoadImages {
         LoadImages.powerup_bombs = new Image(new FileInputStream(Resources.powerup_bombs));
         LoadImages.powerup_flames = new Image(new FileInputStream(Resources.powerup_flames));
         LoadImages.powerup_speed = new Image(new FileInputStream(Resources.powerup_speed));
+    }
+
+    public static void loadSound() throws FileNotFoundException {
+        LoadImages.sound_backgound = new Media(Paths.get(Resources.sound_background).toUri().toString());
     }
 
     public static ImageView showImage(double x, double y,Image image) {
