@@ -1,7 +1,7 @@
 package sample.Animations.Enemy;
 
 import sample.Animations.Animations;
-import sample.LoadResources;
+import sample.LoadRes.LoadResources;
 import sample.Map;
 
 public class Balloom extends Animations {

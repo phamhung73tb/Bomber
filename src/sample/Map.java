@@ -11,6 +11,7 @@ import sample.Icons.Portal;
 import sample.Icons.PowerUpBombs;
 import sample.Icons.PowerUpFlames;
 import sample.Icons.PowerUpSpeed;
+import sample.LoadRes.LoadResources;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,7 +71,7 @@ public class Map {
                     bomber = new Bomber(i, currow, 0.25);
                 }
                 if (kitu == '1') {
-                    Balloom balloom = new Balloom(i, currow, 0.25);
+                    Balloom balloom = new Balloom(i, currow, 0.125);
                     listballoom.add(balloom);
                 }
                 if (kitu == '2') {

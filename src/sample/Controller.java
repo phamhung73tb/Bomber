@@ -14,12 +14,10 @@ import javafx.scene.input.KeyCode;
 
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import sample.Animations.Animations;
 import sample.Animations.Bomber.Bomber;
 import sample.Animations.Enemy.Balloom;
 import sample.Animations.Enemy.Oneal;
@@ -28,6 +26,7 @@ import sample.Graphics.Brick;
 import sample.Graphics.Grass;
 import sample.Icons.PowerUpFlames;
 import sample.Icons.PowerUpSpeed;
+import sample.LoadRes.LoadResources;
 
 
 import java.util.List;
@@ -50,11 +49,16 @@ public class Controller extends Application {
     boolean checkWingame = false;
     int hasBomb = 0;
     int limitBomb = 1;
+    long time = 0;
+
     MediaPlayer sound_Background;
     MediaPlayer sound_enemyDie;
     MediaPlayer sound_bomberDie;
     MediaPlayer sound_pickItem;
     MediaPlayer sound_putBomb;
+    MediaPlayer sound_bombbang;
+    MediaPlayer sound_wingame;
+    MediaPlayer sound_beep;
 
     public static void main(String[] args) {
         launch(args);
@@ -194,7 +198,8 @@ public class Controller extends Application {
             Oneal oneal = Map.listOneal.get(i);
             oneal.place(x, y);
             if (hasFire[oneal.placeX][oneal.placeY]) {
-                imageViews[oneal.index].setImage(LoadResources.img_onealdead);sound_enemyDie = new MediaPlayer(LoadResources.sound_enemyDie);
+                imageViews[oneal.index].setImage(LoadResources.img_onealdead);
+                sound_enemyDie = new MediaPlayer(LoadResources.sound_enemyDie);
                 sound_enemyDie.play();
                 Map.listOneal.get(i).isLife = false;
             }
@@ -280,42 +285,95 @@ public class Controller extends Application {
         addImage();
         Bomber bomber = new Bomber(Map.bomber.realX, Map.bomber.realY, Map.bomber.speed);
         ImageView imageViewBomber = bomber.imageView();
-        AnimationTimer animationCheckEndGame = new AnimationTimer() {
+        AnimationTimer animationGame = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if(checkGameOver && !checkWingame){
-                    checkGameOver = false;
-                    anchorPane.setMaxSize(200,200);
-                    anchorPane.setMinSize(200,200);
-                    anchorPane.setLayoutX(400);
-                    anchorPane.setLayoutY(100);
-                    anchorPane.setStyle("-fx-background-color:white");
-                    Label label = new Label("Defeat!");
-                    label.setTranslateY(-20);
-                    label.setFont(new Font(30));
-                    button.setTranslateY(30);
-                    button.setFont(new Font(20));
-                    anchorPane.getChildren().addAll(label,button);
-                    root.getChildren().addAll(anchorPane);
+                if (time % 30 == 0) {
+                    if(checkGameOver && !checkWingame){
+                        checkWingame = true;
+                        anchorPane.setMaxSize(200,200);
+                        anchorPane.setMinSize(200,200);
+                        anchorPane.setLayoutX(400);
+                        anchorPane.setLayoutY(100);
+                        anchorPane.setStyle("-fx-background-color:white");
+                        Label label = new Label("Defeat!");
+                        label.setTranslateY(-20);
+                        label.setFont(new Font(30));
+                        button.setTranslateY(30);
+                        button.setFont(new Font(15));
+                        anchorPane.getChildren().addAll(label,button);
+                        root.getChildren().addAll(anchorPane);
+                        sound_Background.stop();
+                        sound_bomberDie = new MediaPlayer(LoadResources.sound_bomberDie);
+                        sound_bomberDie.play();
+                        stop();
+                    }
+                    if(checkWingame && !checkGameOver){
+                        checkGameOver = true;
+                        anchorPane.setMaxSize(200,200);
+                        anchorPane.setMinSize(200,200);
+                        anchorPane.setLayoutX(400);
+                        anchorPane.setLayoutY(100);
+                        anchorPane.setStyle("-fx-background-color:white");
+                        Label label = new Label("Victory!");
+                        label.setTranslateY(-20);
+                        label.setFont(new Font(30));
+                        button.setTranslateY(30);
+                        button.setFont(new Font(15));
+                        anchorPane.getChildren().addAll(label,button);
+                        root.getChildren().addAll(anchorPane);
+                        sound_Background.stop();
+                        sound_wingame = new MediaPlayer(LoadResources.sound_wingame);
+                        sound_wingame.play();
+                    }
+                    for (int i = 0; i < balloomList.size(); i ++) {
+                        Balloom balloom = balloomList.get(i);
+                        if (!balloom.isLife) {
+                            changImageView(imageViews[balloomList.get(i).index], 0, 1,
+                                    LoadResources.grass);
+                            balloomList.remove(i);
+                        }
+                        else {
+                            balloom.move();
+                            changImageView(imageViews[balloomList.get(i).index],
+                                    balloom.realX, balloom.realY, balloom.image);
+                            if (bomber.realX == balloom.realX && bomber.realY == balloom.realY) {
+                                bomber.isLife = false;
+                                checkGameOver = true;
+                                imageViewBomber.setImage(LoadResources.img_playerdead);
+
+                            }
+                        }
+
+                    }
+                    for (int i = 0; i < Map.listOneal.size(); i ++) {
+                        Oneal oneal = Map.listOneal.get(i);
+                        if (!oneal.isLife) {
+                            changImageView(imageViews[oneal.index], 0, 1, LoadResources.grass);
+                            Map.listOneal.remove(i);
+                        } else {
+                            oneal.move();
+                            changImageView(imageViews[oneal.index], oneal.realX, oneal.realY, oneal.image);
+                            if (bomber.realX == oneal.realX && bomber.realY == oneal.realY) {
+                                bomber.isLife = false;
+                                checkGameOver = true;
+                                imageViewBomber.setImage(LoadResources.img_playerdead);
+
+                            }
+                        }
+                    }
                 }
-                if(!checkGameOver && checkWingame){
-                    checkGameOver = true;
-                    anchorPane.setMaxSize(200,200);
-                    anchorPane.setMinSize(200,200);
-                    anchorPane.setLayoutX(400);
-                    anchorPane.setLayoutY(100);
-                    anchorPane.setStyle("-fx-background-color:white");
-                    Label label = new Label("Victory!");
-                    label.setTranslateY(-20);
-                    label.setFont(new Font(30));
-                    button.setTranslateY(20);
-                    button.setFont(new Font(30));
-                    anchorPane.getChildren().addAll(label,button);
-                    root.getChildren().addAll(anchorPane);
-                }
+                time ++;
             }
+
         };
-        animationCheckEndGame.start();
+        animationGame.start();
+        if (checkGameOver) {
+            Map.listOneal.clear();
+            Map.listballoom.clear();
+            balloomList.clear();
+            animationGame.stop();
+        }
 
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -323,52 +381,6 @@ public class Controller extends Application {
                 Platform.exit();
             }
         });
-
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (int i = 0; i < balloomList.size(); i ++) {
-                    Balloom balloom = balloomList.get(i);
-                    if (!balloom.isLife) {
-                        changImageView(imageViews[balloomList.get(i).index], 0, 1,
-                                LoadResources.grass);
-                        balloomList.remove(i);
-                    }
-                    else {
-                        balloom.move();
-                        changImageView(imageViews[balloomList.get(i).index],
-                                balloom.realX, balloom.realY, balloom.image);
-                        if (bomber.realX == balloom.realX && bomber.realY == balloom.realY) {
-                            bomber.isLife = false;
-                            checkGameOver = true;
-                            imageViewBomber.setImage(LoadResources.img_playerdead);
-                            sound_bomberDie = new MediaPlayer(LoadResources.sound_bomberDie);
-                            sound_bomberDie.play();
-                        }
-                    }
-
-                }
-                for (int i = 0; i < Map.listOneal.size(); i ++) {
-                    Oneal oneal = Map.listOneal.get(i);
-                    if (!oneal.isLife) {
-                        changImageView(imageViews[oneal.index], 0, 1, LoadResources.grass);
-                        Map.listOneal.remove(i);
-                    } else {
-                        oneal.move();
-                        changImageView(imageViews[oneal.index], oneal.realX, oneal.realY, oneal.image);
-                        if (bomber.realX == oneal.realX && bomber.realY == oneal.realY) {
-                            bomber.isLife = false;
-                            checkGameOver = true;
-                            imageViewBomber.setImage(LoadResources.img_playerdead);
-                            sound_bomberDie = new MediaPlayer(LoadResources.sound_bomberDie);
-                            sound_bomberDie.play();
-                        }
-                    }
-                }
-            }
-        },0, 300);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -381,6 +393,7 @@ public class Controller extends Application {
                         imageViewBomber.setImage(LoadResources.img_playerdead);
                         sound_bomberDie = new MediaPlayer(LoadResources.sound_bomberDie);
                         sound_bomberDie.play();
+
                     }
                 }
                 for (int i = 0; i < balloomList.size(); i ++) {
@@ -425,6 +438,10 @@ public class Controller extends Application {
                         Bomb bomb = new Bomb(placeX, placeY);
                         ImageView imageViewBomb = bomb.imageView();
                         root.getChildren().add(imageViewBomb);
+                        sound_putBomb = new MediaPlayer(LoadResources.sound_putBomb);
+                        sound_putBomb.play();
+                        sound_beep = new MediaPlayer(LoadResources.sound_beep);
+                        sound_beep.play();
                         hasBomb++;
 
                         Timer timer1 = new Timer();
@@ -432,13 +449,12 @@ public class Controller extends Application {
                             @Override
                             public void run() {
                                 imageViewBomb.setImage(LoadResources.img_bombexploded);
+                                sound_bombbang = new MediaPlayer(LoadResources.sound_bombbang);
+                                sound_bombbang.play();
                                 showFire(placeX, placeY, bomber);
                                 if (!bomber.isLife && !checkGameOver) {
                                     imageViewBomber.setImage(LoadResources.img_playerdead);
-                                    sound_bomberDie = new MediaPlayer(LoadResources.sound_bomberDie);
-                                    sound_bomberDie.play();
                                     checkGameOver = true;
-                                    System.out.println("die");
                                 }
                                 Map.isFilled[placeX][placeY]  = false;
                                 hasFire[placeX][placeY] = true;
@@ -452,7 +468,7 @@ public class Controller extends Application {
                                     }
                                 }, 700);
                             }
-                        }, 2100);
+                        }, 2200);
                     }
                 }
             }

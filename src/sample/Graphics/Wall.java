@@ -2,7 +2,7 @@ package sample.Graphics;
 
 import javafx.scene.image.ImageView;
 import sample.Enities;
-import sample.LoadResources;
+import sample.LoadRes.LoadResources;
 
 public class Wall extends Enities {
 

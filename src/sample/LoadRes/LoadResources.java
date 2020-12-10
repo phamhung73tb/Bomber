@@ -1,13 +1,13 @@
-package sample;
+package sample.LoadRes;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
-import sample.Res.Resources;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
+import java.util.Random;
 
 public class LoadResources {
     public static Image img_playerup;
@@ -61,6 +61,9 @@ public class LoadResources {
     public static Media sound_bomberDie;
     public static Media sound_pickItem;
     public static Media sound_putBomb;
+    public static Media sound_bombbang;
+    public static Media sound_wingame;
+    public static Media sound_beep;
 
 
 
@@ -134,6 +137,11 @@ public class LoadResources {
                 new Media(Paths.get(Resources.sound_pickItem).toUri().toString());
         LoadResources.sound_putBomb =
                 new Media(Paths.get(Resources.sound_putBomb).toUri().toString());
+        LoadResources.sound_bombbang =
+                new Media(Paths.get(Resources.sound_bombbang).toUri().toString());
+        LoadResources.sound_wingame =
+                new Media(Paths.get(Resources.sound_winGame).toUri().toString());
+        LoadResources.sound_beep = new Media(Paths.get(Resources.sound_beep).toUri().toString());
     }
 
     public static ImageView showImage(double x, double y,Image image) {

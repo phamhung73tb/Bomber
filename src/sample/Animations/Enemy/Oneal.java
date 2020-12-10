@@ -2,7 +2,7 @@ package sample.Animations.Enemy;
 
 import javafx.scene.image.ImageView;
 import sample.Animations.Animations;
-import sample.LoadResources;
+import sample.LoadRes.LoadResources;
 
 import java.util.Random;
 

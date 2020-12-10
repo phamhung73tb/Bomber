@@ -2,7 +2,7 @@ package sample.Animations.Bomber;
 
 import javafx.scene.image.ImageView;
 import sample.Animations.Animations;
-import sample.LoadResources;
+import sample.LoadRes.LoadResources;
 
 public class Bomber extends Animations {
 

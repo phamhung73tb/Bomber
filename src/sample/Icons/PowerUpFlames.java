@@ -1,7 +1,7 @@
 package sample.Icons;
 
 import sample.Enities;
-import sample.LoadResources;
+import sample.LoadRes.LoadResources;
 
 public class PowerUpFlames extends Enities {
     public PowerUpFlames(double x, double y) {

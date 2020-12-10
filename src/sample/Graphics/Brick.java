@@ -1,7 +1,7 @@
 package sample.Graphics;
 
 import javafx.scene.image.ImageView;
-import sample.LoadResources;
+import sample.LoadRes.LoadResources;
 
 public class Brick extends Wall {
 

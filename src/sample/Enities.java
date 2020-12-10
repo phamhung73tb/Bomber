@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import sample.LoadRes.LoadResources;
 
 public class Enities {
     protected double realX;

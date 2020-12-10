@@ -2,7 +2,7 @@ package sample.Bomb;
 
 import javafx.scene.image.ImageView;
 import sample.Enities;
-import sample.LoadResources;
+import sample.LoadRes.LoadResources;
 
 public class Bomb extends Enities {
     protected int sizeOfFire;
