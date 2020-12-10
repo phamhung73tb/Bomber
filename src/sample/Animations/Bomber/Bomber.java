@@ -2,19 +2,18 @@ package sample.Animations.Bomber;
 
 import javafx.scene.image.ImageView;
 import sample.Animations.Animations;
-import sample.LoadImages;
-import sample.Map;
+import sample.LoadResources;
 
 public class Bomber extends Animations {
 
     public Bomber(double x, double y) {
         super(x, y);
-        this.image = LoadImages.img_playerdown;
+        this.image = LoadResources.img_playerdown;
     }
 
     public Bomber(double x, double y, double speed) {
         super(x, y, speed);
-        this.image = LoadImages.img_playerdown;
+        this.image = LoadResources.img_playerdown;
     }
 
     public void goUp() {
@@ -22,9 +21,9 @@ public class Bomber extends Animations {
         typeDown = 0;
         typeRight = 0;
         typeLeft = 0;
-        if (typeUp % 3 == 0) image = LoadImages.img_playerup;
-        if (typeUp % 3 == 1) image = LoadImages.img_playerup1;
-        if (typeUp % 3 == 2) image = LoadImages.img_playerup2;
+        if (typeUp % 3 == 0) image = LoadResources.img_playerup;
+        if (typeUp % 3 == 1) image = LoadResources.img_playerup1;
+        if (typeUp % 3 == 2) image = LoadResources.img_playerup2;
         if (canGoUp()) {
             realY = realY - speed;
         }
@@ -33,9 +32,9 @@ public class Bomber extends Animations {
     public void downWard() {
         typeDown += 1;
         typeUp = typeRight = typeLeft = 0;
-        if (typeDown % 3== 0) image = LoadImages.img_playerdown;
-        if (typeDown % 3== 1) image = LoadImages.img_playerdown1;
-        if (typeDown %3 == 2) image = LoadImages.img_playerdown2;
+        if (typeDown % 3== 0) image = LoadResources.img_playerdown;
+        if (typeDown % 3== 1) image = LoadResources.img_playerdown1;
+        if (typeDown %3 == 2) image = LoadResources.img_playerdown2;
         if (canDownWard()) {
             realY = realY + speed;
         }
@@ -44,9 +43,9 @@ public class Bomber extends Animations {
     public void turnLeft() {
         typeLeft += 1;
         typeUp = typeRight = typeDown = 0;
-        if (typeLeft %3 == 0) image = LoadImages.img_playerleft;
-        if (typeLeft %3 == 1) image = LoadImages.img_playerleft1;
-        if (typeLeft %3 == 2) image = LoadImages.img_playerleft2;
+        if (typeLeft %3 == 0) image = LoadResources.img_playerleft;
+        if (typeLeft %3 == 1) image = LoadResources.img_playerleft1;
+        if (typeLeft %3 == 2) image = LoadResources.img_playerleft2;
         if (canTurnLeft()) {
             realX = realX - speed;
         }
@@ -55,9 +54,9 @@ public class Bomber extends Animations {
     public void turnRight() {
         typeRight += 1;
         typeLeft = typeDown = typeUp = 0;
-        if (typeRight %3 == 0) image = LoadImages.img_playerright;
-        if (typeRight %3 == 1) image = LoadImages.img_playerright1;
-        if (typeRight %3 == 2) image = LoadImages.img_playerright2;
+        if (typeRight %3 == 0) image = LoadResources.img_playerright;
+        if (typeRight %3 == 1) image = LoadResources.img_playerright1;
+        if (typeRight %3 == 2) image = LoadResources.img_playerright2;
         if (canTurnRight()) {
             realX = realX + speed;
         }

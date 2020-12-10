@@ -60,6 +60,10 @@ public class Resources {
     public static String powerup_speed = "res/powerup_speed.png";
 
     public static String sound_background = "D:\\Java\\Bomber\\res\\sound\\background.mp3";
+    public static String sound_enemyDie = "D:\\Java\\Bomber\\res\\sound\\enemy_die.wav";
+    public static String sound_bomberDie = "D:\\Java\\Bomber\\res\\sound\\bomber_die.wav";
+    public static String sound_pickItem = "D:\\Java\\Bomber\\res\\sound\\pickItem.wav";
+    public static String sound_putBomb = "D:\\Java\\Bomber\\res\\sound\\putBomb.wav";
 
 
 }

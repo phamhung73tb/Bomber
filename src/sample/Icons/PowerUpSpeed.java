@@ -1,11 +1,11 @@
 package sample.Icons;
 
 import sample.Enities;
-import sample.LoadImages;
+import sample.LoadResources;
 
 public class PowerUpSpeed extends Enities {
     public PowerUpSpeed(double x, double y) {
         super(x, y);
-        this.image = LoadImages.powerup_speed;
+        this.image = LoadResources.powerup_speed;
     }
 }

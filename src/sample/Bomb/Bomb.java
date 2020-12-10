@@ -2,13 +2,13 @@ package sample.Bomb;
 
 import javafx.scene.image.ImageView;
 import sample.Enities;
-import sample.LoadImages;
+import sample.LoadResources;
 
 public class Bomb extends Enities {
     protected int sizeOfFire;
     public Bomb(double x, double y) {
         super(x, y);
-        this.image = LoadImages.img_bomb;
+        this.image = LoadResources.img_bomb;
     }
 
     @Override

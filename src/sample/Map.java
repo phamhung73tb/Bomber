@@ -37,12 +37,12 @@ public class Map {
     public static boolean[][] isBrick = new boolean[100][100];
 
     public static void renderMap() throws FileNotFoundException {
-        LoadImages.loadImageGraphics();
-        LoadImages.loadBalloom();
-        LoadImages.loadImageBomber();
-        LoadImages.loadImageBomb();
-        LoadImages.loadIcons();
-        LoadImages.loadOneal();
+        LoadResources.loadImageGraphics();
+        LoadResources.loadBalloom();
+        LoadResources.loadImageBomber();
+        LoadResources.loadImageBomb();
+        LoadResources.loadIcons();
+        LoadResources.loadOneal();
         File map = new File("D:\\Java\\Bomber\\src\\sample\\map.txt");
         Scanner read = new Scanner(map);
         String first = read.nextLine();

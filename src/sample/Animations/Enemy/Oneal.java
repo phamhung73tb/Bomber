@@ -2,8 +2,7 @@ package sample.Animations.Enemy;
 
 import javafx.scene.image.ImageView;
 import sample.Animations.Animations;
-import sample.LoadImages;
-import sample.Map;
+import sample.LoadResources;
 
 import java.util.Random;
 
@@ -11,22 +10,22 @@ public class Oneal extends Animations {
     public Oneal(double x, double y, double speed) {
         super(x, y, speed);
         this.typeDown = 1;
-        this.image = LoadImages.img_onealleft1;
+        this.image = LoadResources.img_onealleft1;
     }
 
     public void move() {
         Random random = new Random();
 
         if (typeLeft > 0 || typeRight > 0) {
-            int rand = random.nextInt(3);
-            if (rand == 1) {
+            int rand = random.nextInt(9);
+            if (rand > 0 && rand % 2 == 0) {
                 if (canGoUp()) {
                     goUp();
                 } else {
                     rand = 0;
                 }
             }
-            if (rand == 2) {
+            if (rand % 2 == 1) {
                 if (canDownWard()) {
                     downWard();
                 } else {
@@ -38,6 +37,7 @@ public class Oneal extends Animations {
                     turnLeft();
                 }
                 if (typeLeft > 0 && !canTurnLeft()) {
+                    realX = realX - speed * 2;
                     turnRight();
                 }
                 if (typeRight > 0 && canTurnRight()) {
@@ -45,19 +45,21 @@ public class Oneal extends Animations {
                 }
                 if (typeRight > 0 && !canTurnRight()) {
                     turnLeft();
+                    realX = realX + speed;
+
                 }
             }
         }
-        if (typeUp > 0|| typeDown > 0 ) {
-            int rand = random.nextInt(3);
-            if (rand == 1) {
+        if (typeUp > 0 || typeDown > 0) {
+            int rand = random.nextInt(9);
+            if (rand > 0 && rand % 2 == 0) {
                 if (canTurnLeft()) {
                     turnLeft();
                 } else {
                     rand = 0;
                 }
             }
-            if (rand == 2) {
+            if (rand % 2 == 1) {
                 if (canTurnRight()) {
                     turnRight();
                 } else {
@@ -65,16 +67,39 @@ public class Oneal extends Animations {
                 }
             }
             if (rand == 0) {
-                if (typeUp > 0 && canGoUp())
+                if (typeUp > 0 && canGoUp()) {
                     goUp();
+                }
+
                 if (typeUp > 0 && !canGoUp())
+                {
+                    realY = realY - speed * 2;
                     downWard();
-                if (typeDown > 0 && canDownWard())
+                }
+
+                if (typeDown > 0 && canDownWard()) {
                     downWard();
-                if (typeDown > 0 && !canDownWard())
+
+                }
+
+                if (typeDown > 0 && !canDownWard()) {
+                    realY = realY + speed;
                     goUp();
+                }
+
             }
         }
+    }
+
+    public void canMove() {
+        if (typeUp > 0 && canGoUp())
+            goUp();
+        if (typeUp > 0 && !canGoUp())
+            downWard();
+        if (typeDown > 0 && canDownWard())
+            downWard();
+        if (typeDown > 0 && !canDownWard())
+            goUp();
     }
 
     @Override
@@ -124,19 +149,18 @@ public class Oneal extends Animations {
     public void turnLeft() {
         typeLeft += 1;
         typeUp = typeRight = typeDown = 0;
-        if (typeLeft % 3 == 0) image = LoadImages.img_onealleft1;
-        if (typeLeft % 3 == 1) image = LoadImages.img_onealleft2;
-        if (typeLeft % 3 == 2) image = LoadImages.img_onealleft3;
+        if (typeLeft % 3 == 0) image = LoadResources.img_onealleft1;
+        if (typeLeft % 3 == 1) image = LoadResources.img_onealleft2;
+        if (typeLeft % 3 == 2) image = LoadResources.img_onealleft3;
         realX = realX - speed;
-
     }
 
     public void turnRight() {
         typeRight += 1;
         typeLeft = typeDown = typeUp = 0;
-        if (typeRight % 3 == 0) image = LoadImages.img_onealright1;
-        if (typeRight % 3 == 1) image = LoadImages.img_onealright2;
-        if (typeRight % 3 == 2) image = LoadImages.img_onealright3;
+        if (typeRight % 3 == 0) image = LoadResources.img_onealright1;
+        if (typeRight % 3 == 1) image = LoadResources.img_onealright2;
+        if (typeRight % 3 == 2) image = LoadResources.img_onealright3;
         realX = realX + speed;
     }
 }

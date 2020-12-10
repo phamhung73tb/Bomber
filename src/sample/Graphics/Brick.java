@@ -1,14 +1,14 @@
 package sample.Graphics;
 
 import javafx.scene.image.ImageView;
-import sample.LoadImages;
+import sample.LoadResources;
 
 public class Brick extends Wall {
 
 
     public Brick(double x, double y) {
         super(x, y);
-        this.image = LoadImages.brick;
+        this.image = LoadResources.brick;
     }
 
     @Override

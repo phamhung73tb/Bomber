@@ -2,12 +2,12 @@ package sample.Graphics;
 
 import javafx.scene.image.ImageView;
 import sample.Enities;
-import sample.LoadImages;
+import sample.LoadResources;
 
 public class Grass extends Enities {
     public Grass(double x, double y) {
         super(x, y);
-        this.image = LoadImages.grass;
+        this.image = LoadResources.grass;
     }
 
     @Override

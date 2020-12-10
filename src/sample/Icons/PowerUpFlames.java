@@ -1,11 +1,11 @@
 package sample.Icons;
 
 import sample.Enities;
-import sample.LoadImages;
+import sample.LoadResources;
 
 public class PowerUpFlames extends Enities {
     public PowerUpFlames(double x, double y) {
         super(x, y);
-        this.image = LoadImages.powerup_flames;
+        this.image = LoadResources.powerup_flames;
     }
 }

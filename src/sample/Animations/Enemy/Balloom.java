@@ -1,16 +1,14 @@
 package sample.Animations.Enemy;
 
 import sample.Animations.Animations;
-import sample.LoadImages;
+import sample.LoadResources;
 import sample.Map;
-
-import java.util.Random;
 
 public class Balloom extends Animations {
 
     public Balloom(double x, double y, double speed) {
         super(x, y, speed);
-        this.image = LoadImages.img_balloomleft;
+        this.image = LoadResources.img_balloomleft;
         this.typeLeft = 1;
 
     }
@@ -46,13 +44,13 @@ public class Balloom extends Animations {
             int nextX = (int) (realX  - speed);
             if (!Map.isFilled[nextX][(int) realY]) {
                 if (typeLeft % 3 == 0) {
-                    image = LoadImages.img_balloomleft;
+                    image = LoadResources.img_balloomleft;
                 }
                 if (typeLeft % 3 == 1) {
-                    image = LoadImages.img_balloomleft1;
+                    image = LoadResources.img_balloomleft1;
                 }
                 if (typeLeft % 3 == 2) {
-                    image = LoadImages.img_balloomleft2;
+                    image = LoadResources.img_balloomleft2;
                 }
                 realX = realX - speed;
                 typeLeft ++;
@@ -63,11 +61,11 @@ public class Balloom extends Animations {
         } else {
             if (!Map.isFilled[(int) realX + 1][(int) realY]) {
                 if (typeRight % 3 == 0)
-                    image = LoadImages.img_balloomright;
+                    image = LoadResources.img_balloomright;
                 if (typeRight % 3 == 1)
-                    image = LoadImages.img_balloomright1;
+                    image = LoadResources.img_balloomright1;
                 if (typeRight % 3 == 2)
-                    image = LoadImages.img_balloomright2;
+                    image = LoadResources.img_balloomright2;
                 realX = realX + speed;
                 typeRight ++;
             }

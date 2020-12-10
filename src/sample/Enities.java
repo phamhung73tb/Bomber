@@ -38,7 +38,7 @@ public class Enities {
     }
 
     public ImageView imageView() {
-        return LoadImages.showImage(realX, realY, image);
+        return LoadResources.showImage(realX, realY, image);
     }
 
 
