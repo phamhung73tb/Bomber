@@ -30,6 +30,7 @@ import sample.LoadRes.LoadResources;
 
 
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -84,18 +85,19 @@ public class Controller extends Application {
             Map.listwall.get(i).index = indexoflistImage;
             indexoflistImage ++;
         }
-        for (int i = 0; i < Map.listballoom.size(); i ++) {
-            imageViews[indexoflistImage] = Map.listballoom.get(i).imageView();
-            root.getChildren().add(imageViews[indexoflistImage]);
-            Map.listballoom.get(i).index = indexoflistImage;
-            indexoflistImage ++;
-        }
         for (int i = 0; i < Map.listOneal.size(); i++) {
             imageViews[indexoflistImage] = Map.listOneal.get(i).imageView();
             root.getChildren().add(imageViews[indexoflistImage]);
             Map.listOneal.get(i).index = indexoflistImage;
             indexoflistImage ++;
         }
+        for (int i = 0; i < Map.listballoom.size(); i ++) {
+            imageViews[indexoflistImage] = Map.listballoom.get(i).imageView();
+            root.getChildren().add(imageViews[indexoflistImage]);
+            Map.listballoom.get(i).index = indexoflistImage;
+            indexoflistImage ++;
+        }
+
     }
 
     public void changImageView(ImageView imageView, double x, double y, Image image) {
@@ -335,6 +337,16 @@ public class Controller extends Application {
                             Map.listOneal.remove(i);
                         } else {
                             oneal.move();
+                            int rand = 1;
+                            long timenow = 0;
+                            if (time % 200 == 0) {
+                                rand = new Random().nextInt(3);
+                                timenow = time;
+                            }
+                            if (rand == 0) {
+                                if (time < (timenow + 200))
+                                    oneal.image = LoadResources.grass;
+                            }
                             changImageView(imageViews[oneal.index], oneal.realX, oneal.realY, oneal.image);
                             checkDeadwithOneal(oneal, bomber);
                             if (!bomber.isLife) {
@@ -480,7 +492,7 @@ public class Controller extends Application {
                                             changImageView(imageViewBomb, 0, 1, LoadResources.wall);
                                             hasBomb --;
                                         }
-                                    }, 300);
+                                    }, 200);
                                 }
                             }, 2200);
                         }
