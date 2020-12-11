@@ -273,7 +273,26 @@ public class Controller extends Application {
             }
         }
     }
-
+    public void checkDeadwithBalloom(Balloom balloom, Bomber bomber) {
+        if (balloom.realX == bomber.realX) {
+            if (Math.abs(balloom.realY - bomber.realY) < 1)
+                bomber.isLife = false;
+        }
+        if (balloom.realY == bomber.realY) {
+            if (Math.abs(balloom.realX - bomber.realX) < 1)
+                bomber.isLife = false;
+        }
+    }
+    public void checkDeadwithOneal(Oneal oneal, Bomber bomber) {
+        if ((int) oneal.realX == (int) bomber.realX) {
+            if (Math.abs(oneal.realY - bomber.realY) < 1)
+                bomber.isLife = false;
+        }
+        if ((int) oneal.realY == (int) bomber.realY) {
+            if (Math.abs(oneal.realX - bomber.realX) < 1)
+                bomber.isLife = false;
+        }
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -288,44 +307,7 @@ public class Controller extends Application {
         AnimationTimer animationGame = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (time % 30 == 0) {
-                    if(checkGameOver && !checkWingame){
-                        checkWingame = true;
-                        anchorPane.setMaxSize(200,200);
-                        anchorPane.setMinSize(200,200);
-                        anchorPane.setLayoutX(400);
-                        anchorPane.setLayoutY(100);
-                        anchorPane.setStyle("-fx-background-color:white");
-                        Label label = new Label("Defeat!");
-                        label.setTranslateY(-20);
-                        label.setFont(new Font(30));
-                        button.setTranslateY(30);
-                        button.setFont(new Font(15));
-                        anchorPane.getChildren().addAll(label,button);
-                        root.getChildren().addAll(anchorPane);
-                        sound_Background.stop();
-                        sound_bomberDie = new MediaPlayer(LoadResources.sound_bomberDie);
-                        sound_bomberDie.play();
-                        stop();
-                    }
-                    if(checkWingame && !checkGameOver){
-                        checkGameOver = true;
-                        anchorPane.setMaxSize(200,200);
-                        anchorPane.setMinSize(200,200);
-                        anchorPane.setLayoutX(400);
-                        anchorPane.setLayoutY(100);
-                        anchorPane.setStyle("-fx-background-color:white");
-                        Label label = new Label("Victory!");
-                        label.setTranslateY(-20);
-                        label.setFont(new Font(30));
-                        button.setTranslateY(30);
-                        button.setFont(new Font(15));
-                        anchorPane.getChildren().addAll(label,button);
-                        root.getChildren().addAll(anchorPane);
-                        sound_Background.stop();
-                        sound_wingame = new MediaPlayer(LoadResources.sound_wingame);
-                        sound_wingame.play();
-                    }
+                if (time % 20 == 0) {
                     for (int i = 0; i < balloomList.size(); i ++) {
                         Balloom balloom = balloomList.get(i);
                         if (!balloom.isLife) {
@@ -337,12 +319,12 @@ public class Controller extends Application {
                             balloom.move();
                             changImageView(imageViews[balloomList.get(i).index],
                                     balloom.realX, balloom.realY, balloom.image);
-                            if (bomber.realX == balloom.realX && bomber.realY == balloom.realY) {
-                                bomber.isLife = false;
-                                checkGameOver = true;
+                            checkDeadwithBalloom(balloom, bomber);
+                            if (!bomber.isLife) {
                                 imageViewBomber.setImage(LoadResources.img_playerdead);
-
+                                checkGameOver = true;
                             }
+
                         }
 
                     }
@@ -354,31 +336,62 @@ public class Controller extends Application {
                         } else {
                             oneal.move();
                             changImageView(imageViews[oneal.index], oneal.realX, oneal.realY, oneal.image);
-                            if (bomber.realX == oneal.realX && bomber.realY == oneal.realY) {
-                                bomber.isLife = false;
-                                checkGameOver = true;
+                            checkDeadwithOneal(oneal, bomber);
+                            if (!bomber.isLife) {
                                 imageViewBomber.setImage(LoadResources.img_playerdead);
-
+                                checkGameOver = true;
                             }
+
                         }
                     }
+                }
+                if(checkGameOver && !checkWingame){
+                    checkWingame = true;
+                    anchorPane.setMaxSize(200,200);
+                    anchorPane.setMinSize(200,200);
+                    anchorPane.setLayoutX(400);
+                    anchorPane.setLayoutY(100);
+                    anchorPane.setStyle("-fx-background-color:white");
+                    Label label = new Label("Defeat!");
+                    label.setTranslateY(-20);
+                    label.setFont(new Font(30));
+                    button.setTranslateY(30);
+                    button.setFont(new Font(15));
+                    anchorPane.getChildren().addAll(label,button);
+                    root.getChildren().addAll(anchorPane);
+                    sound_Background.stop();
+                    sound_bomberDie = new MediaPlayer(LoadResources.sound_bomberDie);
+                    sound_bomberDie.play();
+                    stop();
+                }
+                if(checkWingame && !checkGameOver){
+                    checkGameOver = true;
+                    anchorPane.setMaxSize(200,200);
+                    anchorPane.setMinSize(200,200);
+                    anchorPane.setLayoutX(400);
+                    anchorPane.setLayoutY(100);
+                    anchorPane.setStyle("-fx-background-color:white");
+                    Label label = new Label("Victory!");
+                    label.setTranslateY(-20);
+                    label.setFont(new Font(30));
+                    button.setTranslateY(30);
+                    button.setFont(new Font(15));
+                    anchorPane.getChildren().addAll(label,button);
+                    root.getChildren().addAll(anchorPane);
+                    sound_Background.stop();
+                    sound_wingame = new MediaPlayer(LoadResources.sound_wingame);
+                    sound_wingame.play();
                 }
                 time ++;
             }
 
         };
         animationGame.start();
-        if (checkGameOver) {
-            Map.listOneal.clear();
-            Map.listballoom.clear();
-            balloomList.clear();
-            animationGame.stop();
-        }
-
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 Platform.exit();
+                animationGame.stop();
             }
         });
 
@@ -406,75 +419,78 @@ public class Controller extends Application {
                         sound_bomberDie.play();
                     }
                 }
-                if (event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.A) {
-                    bomber.turnLeft();
-                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
-                    buffIcons(bomber);
-                    checkWinGame(bomber);
-                }
-                if (event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.D) {
-                    bomber.turnRight();
-                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
-                    buffIcons(bomber);
-                    checkWinGame(bomber);
-                }
-                if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.W) {
-                    bomber.goUp();
-                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
-                    buffIcons(bomber);
-                    checkWinGame(bomber);
-                }
-                if (event.getCode() == KeyCode.DOWN || event.getCode() == KeyCode.S) {
-                    changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
-                    buffIcons(bomber);
-                    checkWinGame(bomber);
-                    bomber.downWard();
-                }
-                if (event.getCode() == KeyCode.SPACE) {
-                    if (hasBomb < limitBomb) {
-                        bomber.placeBomb();
-                        int placeX = bomber.placeX;
-                        int placeY = bomber.placeY;
-                        Bomb bomb = new Bomb(placeX, placeY);
-                        ImageView imageViewBomb = bomb.imageView();
-                        root.getChildren().add(imageViewBomb);
-                        sound_putBomb = new MediaPlayer(LoadResources.sound_putBomb);
-                        sound_putBomb.play();
-                        sound_beep = new MediaPlayer(LoadResources.sound_beep);
-                        sound_beep.play();
-                        hasBomb++;
+                if (!checkGameOver) {
+                    if (event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.A) {
+                        bomber.turnLeft();
+                        changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
+                        buffIcons(bomber);
+                        checkWinGame(bomber);
+                    }
+                    if (event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.D) {
+                        bomber.turnRight();
+                        changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
+                        buffIcons(bomber);
+                        checkWinGame(bomber);
+                    }
+                    if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.W) {
+                        bomber.goUp();
+                        changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
+                        buffIcons(bomber);
+                        checkWinGame(bomber);
+                    }
+                    if (event.getCode() == KeyCode.DOWN || event.getCode() == KeyCode.S) {
+                        changImageView(imageViewBomber, bomber.realX, bomber.realY, bomber.image);
+                        buffIcons(bomber);
+                        checkWinGame(bomber);
+                        bomber.downWard();
+                    }
+                    if (event.getCode() == KeyCode.SPACE) {
+                        if (hasBomb < limitBomb) {
+                            bomber.placeBomb();
+                            int placeX = bomber.placeX;
+                            int placeY = bomber.placeY;
+                            Bomb bomb = new Bomb(placeX, placeY);
+                            ImageView imageViewBomb = bomb.imageView();
+                            root.getChildren().add(imageViewBomb);
+                            sound_putBomb = new MediaPlayer(LoadResources.sound_putBomb);
+                            sound_putBomb.play();
+                            sound_beep = new MediaPlayer(LoadResources.sound_beep);
+                            sound_beep.play();
+                            hasBomb++;
 
-                        Timer timer1 = new Timer();
-                        timer1.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                imageViewBomb.setImage(LoadResources.img_bombexploded);
-                                sound_bombbang = new MediaPlayer(LoadResources.sound_bombbang);
-                                sound_bombbang.play();
-                                showFire(placeX, placeY, bomber);
-                                if (!bomber.isLife && !checkGameOver) {
-                                    imageViewBomber.setImage(LoadResources.img_playerdead);
-                                    checkGameOver = true;
-                                }
-                                Map.isFilled[placeX][placeY]  = false;
-                                hasFire[placeX][placeY] = true;
-                                Timer timer2 = new Timer();
-                                timer2.schedule(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        offFire();
-                                        changImageView(imageViewBomb, 0, 1, LoadResources.wall);
-                                        hasBomb --;
+                            Timer timer1 = new Timer();
+                            timer1.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    imageViewBomb.setImage(LoadResources.img_bombexploded);
+                                    sound_bombbang = new MediaPlayer(LoadResources.sound_bombbang);
+                                    sound_bombbang.play();
+                                    showFire(placeX, placeY, bomber);
+                                    if (!bomber.isLife && !checkGameOver) {
+                                        imageViewBomber.setImage(LoadResources.img_playerdead);
+                                        checkGameOver = true;
                                     }
-                                }, 700);
-                            }
-                        }, 2200);
+                                    Map.isFilled[placeX][placeY]  = false;
+                                    hasFire[placeX][placeY] = true;
+                                    Timer timer2 = new Timer();
+                                    timer2.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            offFire();
+                                            changImageView(imageViewBomb, 0, 1, LoadResources.wall);
+                                            hasBomb --;
+                                        }
+                                    }, 300);
+                                }
+                            }, 2200);
+                        }
                     }
                 }
+
             }
         });
         sound_Background = new MediaPlayer(LoadResources.sound_backgound);
-        //sound_Background.play();
+        sound_Background.play();
         root.getChildren().add(imageViewBomber);
         stage.setScene(scene);
         stage.show();
