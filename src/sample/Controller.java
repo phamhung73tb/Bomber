@@ -340,7 +340,7 @@ public class Controller extends Application {
                             int rand = 1;
                             long timenow = 0;
                             if (time % 200 == 0) {
-                                rand = new Random().nextInt(3);
+                                rand = new Random().nextInt(2);
                                 timenow = time;
                             }
                             if (rand == 0) {
@@ -502,7 +502,7 @@ public class Controller extends Application {
             }
         });
         sound_Background = new MediaPlayer(LoadResources.sound_backgound);
-        sound_Background.play();
+        //sound_Background.play();
         root.getChildren().add(imageViewBomber);
         stage.setScene(scene);
         stage.show();
